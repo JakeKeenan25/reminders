@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "0e73f77e-3a7c-4e3c-a7dc-0d43925c48e5",
+		"name": "Reminders",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": " getAllReminders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/reminders/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"reminders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "filterByCreationDateRange",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/reminders/filter/creation?dateFrom=1&dateUntil=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"reminders",
+						"filter",
+						"creation"
+					],
+					"query": [
+						{
+							"key": "dateFrom",
+							"value": "1"
+						},
+						{
+							"key": "dateUntil",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "filterByDueDateRange",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/reminders/filter/due?dateFrom=1&dateUntil=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"reminders",
+						"filter",
+						"due"
+					],
+					"query": [
+						{
+							"key": "dateFrom",
+							"value": "1"
+						},
+						{
+							"key": "dateUntil",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "filterByPriority",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/reminders/filter/priority/:priority",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"reminders",
+						"filter",
+						"priority",
+						":priority"
+					],
+					"variable": [
+						{
+							"key": "priority",
+							"value": "high"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUrgentReminders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/reminders/filter/priority/:priority",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"reminders",
+						"filter",
+						"priority",
+						":priority"
+					],
+					"variable": [
+						{
+							"key": "priority",
+							"value": "high"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getReminderById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/reminders/:reminderId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"reminders",
+						":reminderId"
+					],
+					"variable": [
+						{
+							"key": "reminderId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createReminder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/reminders/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"reminders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateReminder",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/reminders/:reminderId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"reminders",
+						":reminderId"
+					],
+					"variable": [
+						{
+							"key": "reminderId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
