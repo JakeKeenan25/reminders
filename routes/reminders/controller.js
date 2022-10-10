@@ -1,6 +1,8 @@
 const { validationResult } = require('express-validator');
 const dbSvc = require('../../svc/db');
-const generatorSvc = require('../../svc/generator');
+
+const reminderSvc = require('../../svc/reminder');
+
 module.exports = {
     getAllReminders: (req, res) => {
         const errors = validationResult(req);
@@ -8,99 +10,140 @@ module.exports = {
             return res.status(400).send(errors.array());
         }
 
-        const reminders = dbSvc.fetchData();
-        return res.status(200).send(reminders);
+        try{
+            const reminders = reminderSvc.getAllReminders();
+            return res.status(200).send(reminders);
+        }catch(err){
+            return res.status(500).send(err.message);
+        }
     },
+
     createReminder: (req, res) => {
-        console.log('In');
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).send(errors.array());
         }
 
-        const {text, due_date, priority} = req.body;
-        console.log(text, due_date, priority)
-        const obj = {
-            id: generatorSvc.next().value,
-            creation_date: new Date('dd-mm-yyyy'),
-            due_date,
-            text,
-            priority
+        try{
+            const {text, due_date, priority} = req.body;
+            reminderSvc.createReminder(text, due_date, priority);
+            return res.status(201).send('Resource created');
+        }catch(err){
+            return res.status(500).send(err.message);
         }
-        const data = [...dbSvc.fetchData(), obj];
-        console.log(data)
-        dbSvc.pushData(data);
-
-        return res.status(201).send('Resource Created');
     },
+
     getReminderById: (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).send(errors.array());
         }
 
-        const {reminderId} = req.param;
-        const reminders = dbSvc.fetchData().filter(ele => {
-            ele.id === reminderId;
-        });
-        return res.status(200).send(reminders);
+        try{
+            const {reminderId} = req.params;
+            const reminders = reminderSvc.getReminderById(reminderId);
+            return reminders.length > 0 ? res.status(200).send(reminders) : res.status(404).send('Reminder not found');
+        }catch(err){
+            return res.status(500).send(err.message);
+        }
     },
+
+    deleteReminderById: (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).send(errors.array());
+        }
+
+        try{
+            const {reminderId} = req.params;
+            const reminderExists = reminderSvc.deleteReminderById(reminderId);
+            if (reminderExists){
+                return res.status(200).send('Reminder deleted');
+            }else{
+                return res.status(404).send('Reminder not found')
+            }
+        }catch(err){
+            return res.status(500).send(err.message);
+        }
+    },
+
     updateReminder: (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).send(errors.array());
         }
 
-        const reminderId = req.param.reminderId;
-        const {text, due_date, priority} = req.body;
-
-        dbSvc.fetchData().map(ele => {
-            if (ele.id === reminderId){
-                ele.text = text;
-                ele.priority = priority;
-                ele.due_date = due_date;
+        try{
+            const {reminderId} = req.params;
+            const {text, due_date, priority} = req.body;
+            const reminderExists = reminderSvc.updateReminder(reminderId, text, due_date, priority);
+            if (reminderExists){
+                return res.status(200).send('Reminder updated');
+            }else{
+                return res.status(404).send('Reminder not found')
             }
-        })
-        return res.status(204);
+        }catch(err){
+            return res.status(500).send(err.message);
+        }
     },
+
     filterRemindersByCreationDateRange: (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).send(errors.array());
         }
 
-
-        return res.status(200).send('filterRemindersByCreationDateRange');
+        try{
+            const {dateFrom, dateUntil} = req.query;
+            const reminders = reminderSvc.filterRemindersByCreationDateRange(dateFrom, dateUntil);
+            return res.status(200).send(reminders);
+        }catch(err){
+            return res.status(500).send(err.message);
+        }
     },
+
     filterRemindersByDueDateRange: (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).send(errors.array());
         }
 
-
-        return res.status(200).send('filterRemindersByDueDateRange');
+        try{
+            const {dateFrom, dateUntil} = req.query;
+            const reminders = reminderSvc.filterRemindersByDueDateRange(dateFrom, dateUntil);
+            return res.status(200).send(reminders);
+        }catch(err){
+            return res.status(500).send(err.message);
+        }
     },
+
     getRemindersByPriority: (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).send(errors.array());
         }
 
-        const {priority} = req.param;
-        const reminders = dbSvc.fetchData().filter(ele => {
-            ele.priority === priority;
-        });
-
-        return res.status(200).send(reminders);
+        try{
+            const {priority} = req.params;
+            const reminders = reminderSvc.getRemindersByPriority(priority);
+            return res.status(200).send(reminders);
+        }catch(err){
+            return res.status(500).send(err.message);
+        }
     },
+
     getUrgentReminders: (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).send(errors.array());
         }
 
-
-        return res.status(200).send('getUrgentReminders');
+        try{
+            const {dateFrom} = req.query;
+            const reminders = reminderSvc.getUrgentReminders(dateFrom);
+            return res.status(200).send(reminders);
+        }catch(err){
+            return res.status(500).send(err.message);
+        }
     },
 }
