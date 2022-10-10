@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "echo \"Starting Server\" && nodemon index.js"
+    "start": "echo \"Starting Server\" && node index.js",
+    "dev": "echo \"Starting Server\" && nodemon index.js",
+    "test": "echo \"Running Tests\" && nyc mocha --recursive tests"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +18,11 @@
     "node-sessionstorage": "^1.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "assert": "^2.0.0",
+    "mocha": "^10.0.0",
+    "nodemon": "^2.0.20",
+    "nyc": "^15.1.0",
+    "sinon": "^14.0.1",
+    "supertest": "^6.3.0"
   }
 }

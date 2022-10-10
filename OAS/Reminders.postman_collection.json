@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "0e73f77e-3a7c-4e3c-a7dc-0d43925c48e5",
+		"_postman_id": "747edc7a-7cc5-4677-b717-e8613e0afeb6",
 		"name": "Reminders",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22262406"
 	},
 	"item": [
 		{
@@ -32,7 +33,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/v1/reminders/filter/creation?dateFrom=1&dateUntil=2",
+					"raw": "http://localhost:3000/v1/reminders/filter/creation?dateFrom=2022-10-01&dateUntil=2022-10-10",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -47,11 +48,11 @@
 					"query": [
 						{
 							"key": "dateFrom",
-							"value": "1"
+							"value": "2022-10-01"
 						},
 						{
 							"key": "dateUntil",
-							"value": "2"
+							"value": "2022-10-10"
 						}
 					]
 				}
@@ -64,7 +65,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/v1/reminders/filter/due?dateFrom=1&dateUntil=2",
+					"raw": "http://localhost:3000/v1/reminders/filter/due?dateFrom=2022-12-01&dateUntil=2022-12-14",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -79,11 +80,11 @@
 					"query": [
 						{
 							"key": "dateFrom",
-							"value": "1"
+							"value": "2022-12-01"
 						},
 						{
 							"key": "dateUntil",
-							"value": "2"
+							"value": "2022-12-14"
 						}
 					]
 				}
@@ -112,7 +113,7 @@
 					"variable": [
 						{
 							"key": "priority",
-							"value": "high"
+							"value": "low"
 						}
 					]
 				}
@@ -125,7 +126,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/v1/reminders/filter/priority/:priority",
+					"raw": "http://localhost:3000/v1/reminders/filter/urgent?dateFrom=2022-10-10",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -135,13 +136,12 @@
 						"v1",
 						"reminders",
 						"filter",
-						"priority",
-						":priority"
+						"urgent"
 					],
-					"variable": [
+					"query": [
 						{
-							"key": "priority",
-							"value": "high"
+							"key": "dateFrom",
+							"value": "2022-10-10"
 						}
 					]
 				}
@@ -176,10 +176,46 @@
 			"response": []
 		},
 		{
+			"name": "deleteReminderById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/v1/reminders/:reminderId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"v1",
+						"reminders",
+						":reminderId"
+					],
+					"variable": [
+						{
+							"key": "reminderId",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "createReminder",
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"due_date\": \"2022-10-17\",\n    \"text\": \"test\",\n    \"priority\": \"high\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:3000/v1/reminders/",
 					"protocol": "http",
@@ -201,6 +237,15 @@
 			"request": {
 				"method": "PUT",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"due_date\": \"2022-12-14\",\n        \"text\": \"updated\",\n        \"priority\": \"low\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:3000/v1/reminders/:reminderId",
 					"protocol": "http",
@@ -216,13 +261,12 @@
 					"variable": [
 						{
 							"key": "reminderId",
-							"value": "1"
+							"value": "0"
 						}
 					]
 				}
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
